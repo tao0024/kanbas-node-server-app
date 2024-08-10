@@ -77,7 +77,7 @@ export default function WorkingWithArrays(app) {
             id
         } = req.params;
         const todo = todos.find((t) => t.id === parseInt(id));
-        if (todo === -1) {
+        if (todoIndex === -1) {
             res.status(404).json({
                 message: `Unable to delete Todo with ID ${id}`
             });
@@ -141,7 +141,5 @@ export default function WorkingWithArrays(app) {
         });
         res.sendStatus(200);
     });
-
-
 
 };
