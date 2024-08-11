@@ -1,42 +1,63 @@
-import db from "../Database/index.js";
+import * as dao from "./dao.js";
 
 export default function ModuleRoutes(app) {
-    app.post("/api/courses/:cid/modules", (req, res) => {
+    app.post("/api/courses/:courseNumber/modules", async (req, res) => {
         const {
-            cid
+            courseNumber
         } = req.params;
         const newModule = {
             ...req.body,
-            course: cid,
-            _id: new Date().getTime().toString(),
+            course: courseNumber,
         };
-        db.modules.push(newModule);
-        res.send(newModule);
+        try {
+            const module = await dao.createModule(newModule);
+            res.json(module);
+        } catch (error) {
+            res.status(500).json({
+                error: "Failed to create module"
+            });
+        }
     });
-    app.get("/api/courses/:cid/modules", (req, res) => {
+
+    app.get("/api/courses/:courseNumber/modules", async (req, res) => {
         const {
-            cid
+            courseNumber
         } = req.params;
-        const modules = db.modules.filter((m) => m.course === cid);
-        res.json(modules);
+        try {
+            const modules = await dao.findModulesByCourseNumber(courseNumber);
+            res.json(modules);
+        } catch (error) {
+            res.status(500).json({
+                error: "Failed to retrieve modules"
+            });
+        }
     });
-    app.delete("/api/modules/:mid", (req, res) => {
+
+    app.delete("/api/modules/:mid", async (req, res) => {
         const {
             mid
         } = req.params;
-        db.modules = db.modules.filter((m) => m._id !== mid);
-        res.sendStatus(200);
+        try {
+            const status = await dao.deleteModule(mid);
+            res.json(status);
+        } catch (error) {
+            res.status(500).json({
+                error: "Failed to delete module"
+            });
+        }
     });
-    app.put("/api/modules/:mid", (req, res) => {
+
+    app.put("/api/modules/:mid", async (req, res) => {
         const {
             mid
         } = req.params;
-        const moduleIndex = db.modules.findIndex(
-            (m) => m._id === mid);
-        db.modules[moduleIndex] = {
-            ...db.modules[moduleIndex],
-            ...req.body
-        };
-        res.sendStatus(204);
+        try {
+            const status = await dao.updateModule(mid, req.body);
+            res.sendStatus(204);
+        } catch (error) {
+            res.status(500).json({
+                error: "Failed to update module"
+            });
+        }
     });
 }

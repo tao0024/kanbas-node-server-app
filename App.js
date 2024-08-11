@@ -35,9 +35,10 @@ app.use(session(sessionOptions));
 app.use(express.json());
 UserRoutes(app);
 ModuleRoutes(app);
+CourseRoutes(app);
 Lab5(app);
 Hello(app);
-CourseRoutes(app);
+
 AssignmentsRoutes(app);
 
 app.listen(process.env.PORT || 4000);
