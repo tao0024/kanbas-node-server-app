@@ -55,12 +55,19 @@ export default function UserRoutes(app) {
         res.json(user);
     };
     const updateUser = async (req, res) => {
-        const {
-            userId
-        } = req.params;
-        const status = await dao.updateUser(userId, req.body);
-        res.json(status);
+        const { userId } = req.params;
+        try {
+            const updatedUser = await dao.updateUser(userId, req.body);
+            if (updatedUser) {
+                res.json(updatedUser);
+            } else {
+                res.status(404).json({ message: "User not found" });
+            }
+        } catch (error) {
+            res.status(500).json({ message: "Error updating user", error: error.message });
+        }
     };
+    
     const signin = async (req, res) => {
         const {
             username,

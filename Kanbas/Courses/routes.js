@@ -38,23 +38,18 @@ export default function CourseRoutes(app) {
 
     const updateCourse = async (req, res) => {
         try {
-            const {
-                courseId
-            } = req.params;
-            const status = await dao.updateCourse(courseId, req.body);
+            const { courseId } = req.params;  // 这里的courseId实际应该是课程的number
+            const status = await dao.updateCourse(courseId, req.body);  // 直接传递number给DAO层
             if (!status) {
-                res.status(404).json({
-                    message: "Course not found"
-                });
+                res.status(404).json({ message: "Course not found" });
                 return;
             }
             res.json(status);
         } catch (error) {
-            res.status(400).json({
-                error: error.message
-            });
+            res.status(400).json({ error: error.message });
         }
     };
+    
 
     const deleteCourse = async (req, res) => {
         try {

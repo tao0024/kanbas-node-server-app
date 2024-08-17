@@ -14,12 +14,13 @@ export const findCourseById = (courseId) => {
     });
 };
 
-export const updateCourse = (courseId, courseData) => {
-    return model.findByIdAndUpdate(courseId, courseData, {
+export const updateCourse = (courseNumber, courseData) => {
+    return model.findOneAndUpdate({ number: courseNumber }, courseData, {
         new: true,
         runValidators: true
     });
 };
+
 
 export const deleteCourse = (courseId) => {
     return model.deleteOne({

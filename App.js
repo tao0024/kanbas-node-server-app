@@ -9,6 +9,7 @@ import ModuleRoutes from "./Kanbas/Modules/routes.js";
 import AssignmentsRoutes from './Kanbas/Assignments/routes.js';
 import UserRoutes from "./Users/routes.js";
 import session from "express-session";
+import QuizzesRoutes from './Kanbas/Quizzes/routes.js';
 const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"
 mongoose.connect(CONNECTION_STRING);
 
@@ -38,6 +39,7 @@ ModuleRoutes(app);
 CourseRoutes(app);
 Lab5(app);
 Hello(app);
+QuizzesRoutes(app);
 
 AssignmentsRoutes(app);
 

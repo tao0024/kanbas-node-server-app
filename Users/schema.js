@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
     email: String,
     lastName: String,
     dob: Date,
+    enrol:[],
     role: {
         type: String,
         enum: ["STUDENT", "FACULTY", "ADMIN", "USER"],
